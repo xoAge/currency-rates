@@ -4,6 +4,6 @@ package io.github.xoage.rates.rate;
 public class UnknownCurrencyException extends RuntimeException {
 
     public UnknownCurrencyException(String code) {
-        super("Неизвестная валюта" + code);
+        super("Неизвестная валюта: " + code);
     }
 }
