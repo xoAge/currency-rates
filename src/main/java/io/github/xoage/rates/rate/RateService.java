@@ -27,14 +27,16 @@ public class RateService {
         return findRate(getDailyRates(),code);
     }
 
-    public BigDecimal convert(String from, String to, BigDecimal amount) {
+    public Conversion convert(String from, String to, BigDecimal amount) {
         DailyRates rates = getDailyRates();
         Rate fromRate = findRate(rates,from);
         Rate toRate = findRate(rates,to);
 
-        return amount
+        BigDecimal result = amount
                 .multiply(fromRate.rubPerUnit())
                 .divide(toRate.rubPerUnit(), MONEY_SCALE, RoundingMode.HALF_EVEN);
+
+        return new Conversion(fromRate.code(), toRate.code(), amount, result, rates.date());
     }
 
     private static Rate findRate(DailyRates rates, String code) {
