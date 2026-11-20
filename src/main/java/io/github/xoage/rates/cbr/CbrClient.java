@@ -1,6 +1,7 @@
 package io.github.xoage.rates.cbr;
 
 import io.github.xoage.rates.config.CbrProperties;
+import io.github.xoage.rates.rate.DailyRates;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
@@ -28,12 +29,13 @@ public class CbrClient {
         this.objectMapper = objectMapper;
     }
 
-    public CbrDailyResponse fetchDailyRates() {
+    public DailyRates fetchDailyRates() {
         log.info("Запрос курсов в API ЦБ");
         String body = restClient.get()
                 .uri("/daily_json.js")
                 .retrieve()
                 .body(String.class);
-        return objectMapper.readValue(body,CbrDailyResponse.class);
+        CbrDailyResponse response = objectMapper.readValue(body,CbrDailyResponse.class);
+        return CbrMapper.toDailyRates(response);
     }
 }

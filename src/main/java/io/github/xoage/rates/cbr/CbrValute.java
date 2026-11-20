@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.math.BigDecimal;
 
 /// Одна валюта в ответе ЦБ. Курс Value указан в рублях за Nominal единиц валюты.
-public record CbrValute(
+record CbrValute(
         @JsonProperty("CharCode") String charCode,
         @JsonProperty("Nominal") int nominal,
         @JsonProperty("Name") String name,
