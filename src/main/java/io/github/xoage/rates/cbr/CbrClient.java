@@ -1,9 +1,11 @@
 package io.github.xoage.rates.cbr;
 
+import io.github.xoage.rates.config.CacheConfig;
 import io.github.xoage.rates.config.CbrProperties;
 import io.github.xoage.rates.rate.DailyRates;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
@@ -29,6 +31,7 @@ public class CbrClient {
         this.objectMapper = objectMapper;
     }
 
+    @Cacheable(value = CacheConfig.DAILY_RATES, sync = true)
     public DailyRates fetchDailyRates() {
         log.info("Запрос курсов в API ЦБ");
         String body = restClient.get()
